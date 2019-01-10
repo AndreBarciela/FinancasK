@@ -20,7 +20,7 @@ class ListaTransacoesAdapter(private val transacoes: List<Transacao>,
         viewCriada.transacao_valor.text = transacao.valor.toString()
         viewCriada.transacao_categoria.text = transacao.categoria
 
-        val formatoBrasileiro = "dd/MM//yyyyy"
+        val formatoBrasileiro = "dd/MM/yyyy"
         val format = SimpleDateFormat(formatoBrasileiro)
         val dataFormatada = format.format(transacao.data.time)
         viewCriada.transacao_data.text = dataFormatada
