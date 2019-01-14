@@ -8,12 +8,15 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import br.com.andre.financask.R
 import br.com.andre.financask.extension.formataParaBrasileiro
+import br.com.andre.financask.extension.limitaEmAte
 import br.com.andre.financask.model.Tipo
 import br.com.andre.financask.model.Transacao
 import kotlinx.android.synthetic.main.transacao_item.view.*
 
 class ListaTransacoesAdapter(private val transacoes: List<Transacao>,
                              private val context: Context) : BaseAdapter() {
+
+    private val limiteDaCategoria = 14
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val viewCriada = LayoutInflater.from(context).inflate(R.layout.transacao_item, parent, false)
@@ -29,7 +32,7 @@ class ListaTransacoesAdapter(private val transacoes: List<Transacao>,
         }
 
         viewCriada.transacao_valor.text = transacao.valor.formataParaBrasileiro()
-        viewCriada.transacao_categoria.text = transacao.categoria
+        viewCriada.transacao_categoria.text = transacao.categoria.limitaEmAte(limiteDaCategoria)
         viewCriada.transacao_data.text = transacao.data.formataParaBrasileiro()
 
         return viewCriada
