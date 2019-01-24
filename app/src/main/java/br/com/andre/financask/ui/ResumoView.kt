@@ -11,33 +11,45 @@ import br.com.andre.financask.model.Transacao
 import kotlinx.android.synthetic.main.resumo_card.view.*
 import java.math.BigDecimal
 
-class ResumoView(private val context: Context,
+class ResumoView(context: Context,
                  private val view: View,
                  transacoes: List<Transacao>) {
 
     private val resumo: Resumo = Resumo(transacoes)
+    private val corReceita = ContextCompat.getColor(context, R.color.receita)
+    private val corDespesa = ContextCompat.getColor(context, R.color.despesa)
 
     fun adicionaReceita() {
-        var totalReceita = resumo.receita()
-        view.resumo_card_receita.setTextColor(ContextCompat.getColor(context, R.color.receita))
-        view.resumo_card_receita.text = totalReceita.formataParaBrasileiro()
+        val totalReceita = resumo.receita()
+        with(view.resumo_card_receita) {
+            setTextColor(corReceita)
+            text = totalReceita.formataParaBrasileiro()
+        }
     }
 
     fun adicionaDespesa() {
-        var totalDespesa = resumo.despesa()
-        view.resumo_card_despesa.setTextColor(ContextCompat.getColor(context, R.color.despesa))
-        view.resumo_card_despesa.text = totalDespesa.formataParaBrasileiro()
+        val totalDespesa = resumo.despesa()
+        with(view.resumo_card_despesa) {
+            setTextColor(corDespesa)
+            text = totalDespesa.formataParaBrasileiro()
+        }
     }
 
     fun adicionaTotal() {
         val total = resumo.total()
+        val cor = corPor(total)
 
-        if (total.compareTo(BigDecimal.ONE) >= 0) {
-            view.resumo_card_total.setTextColor(ContextCompat.getColor(context, R.color.receita))
-        } else {
-            view.resumo_card_total.setTextColor(ContextCompat.getColor(context, R.color.despesa))
+        with(view.resumo_card_total) {
+            setTextColor(cor)
+            text = total.formataParaBrasileiro()
         }
+    }
 
-        view.resumo_card_total.text = total.formataParaBrasileiro()
+    private fun corPor(total: BigDecimal): Int {
+        return if (total >= BigDecimal.ONE) {
+            corReceita
+        } else {
+            corDespesa
+        }
     }
 }
