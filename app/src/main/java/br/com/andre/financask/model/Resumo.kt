@@ -5,21 +5,19 @@ import java.math.BigDecimal
 class Resumo(private val transacoes: List<Transacao>) {
 
     fun receita(): BigDecimal {
-        val somaDeReceita = somaPor(Tipo.RECEITA)
-
-        return BigDecimal(somaDeReceita)
+        return somaPor(Tipo.RECEITA)
     }
 
     fun despesa(): BigDecimal {
-        val somaDeDespesa = somaPor(Tipo.DESPESA)
-
-        return BigDecimal(somaDeDespesa)
+        return somaPor(Tipo.DESPESA)
     }
 
-    private fun somaPor(tipo: Tipo): Double {
-        return transacoes
-            .filter { transacao -> transacao.tipo == tipo }
-            .sumByDouble { transacao -> transacao.valor.toDouble() }
+    private fun somaPor(tipo: Tipo): BigDecimal {
+        val somaDeTransacaoPeloTipo = transacoes
+            .filter { it.tipo == tipo }
+            .sumByDouble { it.valor.toDouble() }
+
+        return BigDecimal(somaDeTransacaoPeloTipo)
     }
 
     fun total(): BigDecimal {
